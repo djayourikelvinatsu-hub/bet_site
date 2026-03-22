@@ -1,0 +1,189 @@
+.picks {
+  padding: 32px 20px 64px;
+}
+
+.picks__inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.picks__head {
+  margin-bottom: 28px;
+}
+
+.picks__eyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--green);
+  margin-bottom: 10px;
+}
+
+.picks__title {
+  margin: 0 0 12px;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.picks__sub {
+  margin: 0 0 12px;
+  max-width: 560px;
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+}
+
+.picks__link-all {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.picks__link-all:hover {
+  text-decoration: underline;
+}
+
+.picks__loading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 32px;
+  justify-content: center;
+  color: var(--text-muted);
+  background: var(--bg-card);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+}
+
+.picks__spinner {
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.picks__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.pick-card {
+  padding: 20px 22px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color 0.2s;
+}
+
+.pick-card:hover {
+  border-color: rgba(251, 191, 36, 0.25);
+}
+
+.pick-card--locked {
+  background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-elevated) 100%);
+}
+
+.pick-card__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.pick-card__league {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.pick-card__kickoff {
+  font-size: 0.75rem;
+  color: var(--accent);
+}
+
+.pick-card__fixture {
+  margin: 0 0 6px;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.pick-card__market {
+  margin: 0 0 16px;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.pick-card__code-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.pick-card__book {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.pick-card__code {
+  font-family: ui-monospace, monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 8px 14px;
+  background: var(--green-dim);
+  color: var(--green);
+  border-radius: 8px;
+}
+
+.pick-card__code--blur {
+  filter: blur(4px);
+  user-select: none;
+  background: rgba(248, 113, 113, 0.12);
+  color: var(--danger);
+}
+
+.picks__upsell {
+  margin-top: 36px;
+  padding: 28px 24px;
+  text-align: center;
+  background: linear-gradient(145deg, var(--accent-dim), transparent 60%);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+  border-radius: var(--radius);
+}
+
+.picks__upsell p {
+  margin: 0 0 16px;
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+}
+
+.picks__upsell strong {
+  color: var(--text);
+}
+
+.picks__price {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.picks__subscribe {
+  text-decoration: none;
+}

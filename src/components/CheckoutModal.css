@@ -1,0 +1,131 @@
+.checkout-modal__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+}
+
+.checkout-modal {
+  width: min(100%, 420px);
+  padding: 28px 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  text-align: left;
+}
+
+.checkout-modal__title {
+  margin: 0 0 12px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.checkout-modal__amount {
+  margin: 0 0 16px;
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.checkout-modal__currency {
+  font-size: 1.1rem;
+  vertical-align: super;
+}
+
+.checkout-modal__period {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.checkout-modal__methods {
+  margin: 0 0 20px;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.checkout-modal__methods strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.checkout-modal__label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.checkout-modal__input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--text);
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.checkout-modal__input:focus {
+  outline: none;
+  border-color: rgba(251, 191, 36, 0.45);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+.checkout-modal__input:disabled {
+  opacity: 0.6;
+}
+
+.checkout-modal__error {
+  margin: 0 0 14px;
+  font-size: 0.8125rem;
+  color: var(--danger);
+  line-height: 1.45;
+}
+
+.checkout-modal__actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.checkout-modal__cancel {
+  flex: 0 0 auto;
+}
+
+.checkout-modal__text {
+  margin: 0 0 12px;
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+}
+
+.checkout-modal__ref {
+  font-family: ui-monospace, monospace;
+  font-size: 0.875rem;
+  padding: 4px 8px;
+  background: var(--green-dim);
+  color: var(--green);
+  border-radius: 6px;
+}
+
+.checkout-modal__hint {
+  margin: 0 0 20px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.checkout-modal__btn {
+  width: 100%;
+}
