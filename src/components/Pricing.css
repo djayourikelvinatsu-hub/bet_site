@@ -1,28 +1,30 @@
 .pricing {
-  padding: 24px 20px 80px;
-  border-top: 1px solid var(--border);
+  padding: 48px 20px 96px;
+  border-top: 1px solid var(--border-bright);
+  background: linear-gradient(180deg, transparent 0%, rgba(4, 6, 12, 0.4) 100%);
 }
 
 .pricing__inner {
-  max-width: 900px;
+  max-width: 920px;
   margin: 0 auto;
   text-align: center;
 }
 
 .pricing__eyebrow {
   display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: 0.6875rem;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--accent);
-  margin-bottom: 10px;
+  letter-spacing: 0.14em;
+  color: var(--accent-bright);
+  margin-bottom: 12px;
 }
 
 .pricing__title {
-  margin: 0 0 10px;
-  font-size: clamp(1.75rem, 4vw, 2.25rem);
-  font-weight: 700;
+  margin: 0 0 12px;
+  font-family: var(--font-display);
+  font-size: clamp(1.85rem, 4.5vw, 2.5rem);
+  font-weight: 400;
   letter-spacing: -0.02em;
 }
 
@@ -30,32 +32,38 @@
   margin: 0 0 40px;
   color: var(--text-muted);
   font-size: 0.9375rem;
+  line-height: 1.55;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .pricing__config-hint {
-  margin: -24px auto 28px;
+  margin: -20px auto 32px;
   max-width: 520px;
-  padding: 12px 16px;
+  padding: 14px 18px;
   font-size: 0.8125rem;
-  line-height: 1.5;
+  line-height: 1.55;
   color: var(--text-muted);
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 10px;
+  background: rgba(17, 26, 46, 0.6);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius-sm);
+  text-align: left;
 }
 
 .pricing__config-hint code {
   font-size: 0.75rem;
-  padding: 2px 6px;
+  padding: 2px 7px;
   background: var(--bg-deep);
-  border-radius: 4px;
-  color: var(--accent);
+  border-radius: 5px;
+  color: var(--accent-bright);
+  font-weight: 600;
 }
 
 .pricing__grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  gap: 22px;
   text-align: left;
 }
 
@@ -67,124 +75,225 @@
 
 .price-card {
   position: relative;
-  padding: 28px 24px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  padding: 32px 26px 28px;
+  background: linear-gradient(165deg, rgba(17, 26, 46, 0.75) 0%, rgba(8, 12, 22, 0.85) 100%);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius-lg);
   display: flex;
   flex-direction: column;
+  transition:
+    border-color 0.25s var(--ease-out),
+    box-shadow 0.25s var(--ease-out),
+    transform 0.25s var(--ease-out);
+  overflow: hidden;
+}
+
+.price-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255, 255, 255, 0.04), transparent 55%);
+  pointer-events: none;
+}
+
+.price-card:hover {
+  border-color: rgba(255, 255, 255, 0.14);
+  transform: translateY(-3px);
+  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .price-card:hover {
+    transform: none;
+  }
 }
 
 .price-card--featured {
-  border-color: rgba(251, 191, 36, 0.35);
-  box-shadow: 0 0 0 1px rgba(251, 191, 36, 0.08), var(--shadow);
+  border-color: rgba(240, 180, 41, 0.38);
+  box-shadow:
+    0 0 0 1px rgba(240, 180, 41, 0.1),
+    0 20px 60px rgba(0, 0, 0, 0.4),
+    0 0 80px rgba(240, 180, 41, 0.06);
+}
+
+.price-card--featured::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--accent-bright), var(--accent), transparent);
+  opacity: 0.95;
 }
 
 .price-card__badge {
+  position: relative;
+  z-index: 1;
   align-self: flex-start;
-  font-size: 0.6875rem;
-  font-weight: 700;
+  font-size: 0.625rem;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   color: var(--text-muted);
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .price-card__badge--hot {
-  color: var(--accent);
+  color: var(--accent-bright);
 }
 
 .price-card__name {
-  margin: 0 0 8px;
-  font-size: 1.25rem;
-  font-weight: 700;
+  position: relative;
+  z-index: 1;
+  margin: 0 0 10px;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 .price-card__amount {
-  margin: 0 0 6px;
-  font-size: 2.5rem;
-  font-weight: 800;
-  letter-spacing: -0.03em;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 6px;
+  margin: 0 0 8px;
   line-height: 1;
 }
 
 .price-card__currency {
-  font-size: 1.25rem;
-  vertical-align: super;
-  margin-right: 2px;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--accent-bright);
+}
+
+.price-card__figure {
+  font-size: 2.65rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(180deg, #fff 0%, #a8b8d4 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .price-card__period {
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 1.05rem;
+  font-weight: 700;
   color: var(--text-muted);
 }
 
 .price-card__note {
-  margin: 0 0 20px;
+  position: relative;
+  z-index: 1;
+  margin: 0 0 22px;
   font-size: 0.8125rem;
+  font-weight: 500;
   color: var(--text-muted);
 }
 
 .price-card__features {
-  margin: 0 0 24px;
-  padding: 0 0 0 1.1rem;
+  position: relative;
+  z-index: 1;
+  margin: 0 0 26px;
+  padding: 0;
   flex: 1;
+  list-style: none;
   color: var(--text-muted);
   font-size: 0.875rem;
-  line-height: 1.65;
+  line-height: 1.55;
 }
 
 .price-card__features li {
-  margin-bottom: 6px;
+  position: relative;
+  margin-bottom: 10px;
+  padding-left: 26px;
+}
+
+.price-card__features li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 16px;
+  height: 16px;
+  border-radius: 5px;
+  background: var(--green-dim);
+  border: 1px solid rgba(62, 232, 168, 0.25);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M3.5 8.2l2.8 2.8 6.2-6.2' stroke='%233ee8a8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-size: 12px;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .price-card__btn {
+  position: relative;
+  z-index: 1;
   width: 100%;
 }
 
 .pricing__payments-label {
-  margin: 48px 0 8px;
-  font-size: 0.75rem;
-  font-weight: 600;
+  margin: 52px 0 8px;
+  font-size: 0.6875rem;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   color: var(--text-muted);
 }
 
 .pricing__payments-help {
-  margin: 0 0 16px;
+  margin: 0 0 18px;
   font-size: 0.8125rem;
   color: var(--text-muted);
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.5;
 }
 
 .pricing__payments {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
   justify-content: center;
 }
 
 .pricing__payment-chip {
-  padding: 10px 18px;
+  padding: 12px 20px;
   font-size: 0.8125rem;
-  font-weight: 600;
+  font-weight: 700;
   font-family: inherit;
   cursor: pointer;
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-bright);
   border-radius: 999px;
   color: var(--text-muted);
-  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  transition:
+    color 0.2s var(--ease-out),
+    border-color 0.2s var(--ease-out),
+    background 0.2s var(--ease-out),
+    transform 0.2s var(--ease-out);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .pricing__payment-chip:hover {
   color: var(--text);
-  border-color: rgba(251, 191, 36, 0.35);
-  background: var(--accent-dim);
+  border-color: rgba(240, 180, 41, 0.35);
+  background: rgba(240, 180, 41, 0.1);
+  transform: translateY(-2px);
 }
 
 .pricing__payment-chip:focus-visible {
   outline: none;
   box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pricing__payment-chip:hover {
+    transform: none;
+  }
 }

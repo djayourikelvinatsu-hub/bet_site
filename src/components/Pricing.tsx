@@ -49,7 +49,8 @@ export function Pricing() {
             <span className="price-card__badge">Quick access</span>
             <h3 className="price-card__name">Daily pass</h3>
             <p className="price-card__amount">
-              <span className="price-card__currency">₵</span>10
+              <span className="price-card__currency">₵</span>
+              <span className="price-card__figure">10</span>
               <span className="price-card__period">/day</span>
             </p>
             <p className="price-card__note">24-hour access · Auto-expires</p>
@@ -68,7 +69,8 @@ export function Pricing() {
             <span className="price-card__badge price-card__badge--hot">Best value</span>
             <h3 className="price-card__name">Monthly subscription</h3>
             <p className="price-card__amount">
-              <span className="price-card__currency">₵</span>50
+              <span className="price-card__currency">₵</span>
+              <span className="price-card__figure">50</span>
               <span className="price-card__period">/month</span>
             </p>
             <p className="price-card__note">30-day access · Notifications included</p>

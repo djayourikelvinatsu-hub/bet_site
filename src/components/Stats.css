@@ -1,41 +1,101 @@
 .stats {
-  max-width: 900px;
+  max-width: 960px;
   margin: 0 auto;
-  padding: 0 20px 48px;
+  padding: 0 20px 56px;
 }
 
 .stats__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  gap: 16px;
 }
 
-@media (max-width: 540px) {
+@media (max-width: 640px) {
   .stats__grid {
     grid-template-columns: 1fr;
+    max-width: 400px;
+    margin: 0 auto;
   }
 }
 
 .stats__item {
+  position: relative;
   text-align: center;
-  padding: 24px 16px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  padding: 28px 20px 26px;
+  background: linear-gradient(165deg, rgba(17, 26, 46, 0.9) 0%, rgba(12, 18, 32, 0.75) 100%);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow), var(--shadow-glow);
+  transition:
+    transform 0.25s var(--ease-out),
+    border-color 0.25s var(--ease-out),
+    box-shadow 0.25s var(--ease-out);
+  overflow: hidden;
+}
+
+.stats__item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 12%;
+  right: 12%;
+  height: 3px;
+  border-radius: 0 0 8px 8px;
+  background: linear-gradient(90deg, transparent, var(--green-muted), transparent);
+  opacity: 0.85;
+}
+
+.stats__item:hover {
+  transform: translateY(-4px);
+  border-color: rgba(62, 232, 168, 0.22);
+  box-shadow:
+    var(--shadow),
+    0 0 0 1px rgba(62, 232, 168, 0.08),
+    0 24px 48px rgba(0, 0, 0, 0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stats__item:hover {
+    transform: none;
+  }
+}
+
+.stats__icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 14px;
+  border-radius: 14px;
+  color: var(--green);
+  background: var(--green-dim);
+  border: 1px solid rgba(62, 232, 168, 0.2);
+}
+
+.stats__icon-svg {
+  width: 22px;
+  height: 22px;
 }
 
 .stats__value {
   display: block;
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: var(--green);
-  letter-spacing: -0.02em;
+  font-size: 2rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+  background: linear-gradient(180deg, #fff 0%, #c8d4e8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .stats__label {
   display: block;
-  margin-top: 6px;
+  margin-top: 8px;
   font-size: 0.8125rem;
+  font-weight: 600;
   color: var(--text-muted);
+  letter-spacing: 0.02em;
 }
