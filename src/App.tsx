@@ -1,28 +1,26 @@
-import { Header } from "./components/Header";
-import { Hero } from "./components/Hero";
-import { Stats } from "./components/Stats";
-import { TrackRecord } from "./components/TrackRecord";
-import { FreePicks } from "./components/FreePicks";
-import { Testimonials } from "./components/Testimonials";
-import { Pricing } from "./components/Pricing";
-import { FAQ } from "./components/FAQ";
-import { Footer } from "./components/Footer";
-import "./App.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import { Layout } from "./components/Layout";
+import { HomePage } from "./pages/HomePage";
+import { LoginPage } from "./pages/LoginPage";
+import { SignupPage } from "./pages/SignupPage";
+import { AdminPage } from "./pages/AdminPage";
+import { AuthCallbackPage } from "./pages/AuthCallbackPage";
 
 export default function App() {
   return (
-    <>
-      <Header />
-      <main>
-        <Hero />
-        <Stats />
-        <TrackRecord />
-        <FreePicks />
-        <Testimonials />
-        <Pricing />
-        <FAQ />
-      </main>
-      <Footer />
-    </>
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route index element={<HomePage />} />
+            <Route path="login" element={<LoginPage />} />
+            <Route path="signup" element={<SignupPage />} />
+            <Route path="admin" element={<AdminPage />} />
+            <Route path="auth/callback" element={<AuthCallbackPage />} />
+          </Route>
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }

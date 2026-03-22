@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./Hero.css";
 
 export function Hero() {
@@ -17,16 +18,16 @@ export function Hero() {
           Ready to start <em>winning</em> big?
         </h1>
         <p className="hero__lead">
-          Expert football predictions straight to your phone. No apps needed — winning tips via SMS when it
-          matters.
+          Expert football predictions straight to your phone. Create a free account, verify your email for
+          free codes, or subscribe for VIP odds.
         </p>
         <div className="hero__actions">
-          <a href="#pricing" className="btn btn--primary">
-            Get started free
-          </a>
-          <a href="#tips" className="btn btn--ghost">
+          <Link to="/signup" className="btn btn--primary">
+            Create free account
+          </Link>
+          <Link to="/#tips" className="btn btn--ghost">
             See today&apos;s tips
-          </a>
+          </Link>
         </div>
       </div>
     </section>

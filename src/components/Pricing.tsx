@@ -1,4 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { isSupabaseConfigured } from "../lib/supabase";
 import { CheckoutModal, type CheckoutPlan } from "./CheckoutModal";
 import "./Pricing.css";
 
@@ -20,10 +23,26 @@ const PLANS: Record<CheckoutPlan["id"], CheckoutPlan> = {
 export function Pricing() {
   const [activePlan, setActivePlan] = useState<CheckoutPlan | null>(null);
   const publicKey = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY as string | undefined;
+  const { user, emailConfirmed, refreshProfile } = useAuth();
+  const navigate = useNavigate();
 
-  const openPlan = useCallback((id: CheckoutPlan["id"]) => {
-    setActivePlan(PLANS[id]);
-  }, []);
+  const openPlan = useCallback(
+    (id: CheckoutPlan["id"]) => {
+      if (isSupabaseConfigured) {
+        if (!user) {
+          navigate("/signup");
+          return;
+        }
+        if (!emailConfirmed) {
+          window.alert("Verify your email before purchasing VIP access.");
+          navigate("/");
+          return;
+        }
+      }
+      setActivePlan(PLANS[id]);
+    },
+    [user, emailConfirmed, navigate]
+  );
 
   const closeModal = useCallback(() => setActivePlan(null), []);
 
@@ -31,7 +50,13 @@ export function Pricing() {
 
   return (
     <section className="pricing" id="pricing">
-      <CheckoutModal plan={activePlan} publicKey={publicKey} onClose={closeModal} />
+      <CheckoutModal
+        plan={activePlan}
+        publicKey={publicKey}
+        onClose={closeModal}
+        defaultEmail={user?.email ?? ""}
+        onVipUnlocked={() => refreshProfile()}
+      />
 
       <div className="pricing__inner">
         <span className="pricing__eyebrow">Simple pricing</span>

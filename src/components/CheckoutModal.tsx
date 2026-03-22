@@ -11,6 +11,7 @@ import {
   loadPaystackScript,
   openPaystackCheckout,
 } from "../lib/paystack";
+import { isSupabaseConfigured, verifyPaystackAndUnlockVip } from "../lib/supabase";
 import "./CheckoutModal.css";
 
 export type CheckoutPlan = {
@@ -24,15 +25,25 @@ type CheckoutModalProps = {
   plan: CheckoutPlan | null;
   publicKey: string | undefined;
   onClose: () => void;
+  defaultEmail?: string;
+  onVipUnlocked?: () => void | Promise<void>;
 };
 
-export function CheckoutModal({ plan, publicKey, onClose }: CheckoutModalProps) {
+export function CheckoutModal({
+  plan,
+  publicKey,
+  onClose,
+  defaultEmail = "",
+  onVipUnlocked,
+}: CheckoutModalProps) {
   const titleId = useId();
   const emailRef = useRef<HTMLInputElement>(null);
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [successRef, setSuccessRef] = useState<string | null>(null);
+  const [verifyPhase, setVerifyPhase] = useState<"idle" | "pending" | "ok" | "err">("idle");
+  const [verifyDetail, setVerifyDetail] = useState<string | null>(null);
 
   useEffect(() => {
     if (!plan) {
@@ -40,31 +51,34 @@ export function CheckoutModal({ plan, publicKey, onClose }: CheckoutModalProps) 
       setError(null);
       setBusy(false);
       setSuccessRef(null);
+      setVerifyPhase("idle");
+      setVerifyDetail(null);
       return;
     }
+    setEmail(defaultEmail);
     const t = window.setTimeout(() => emailRef.current?.focus(), 50);
     return () => window.clearTimeout(t);
-  }, [plan]);
+  }, [plan, defaultEmail]);
 
   const handleBackdrop = useCallback(
     (e: MouseEvent<HTMLDivElement>) => {
-      if (e.target === e.currentTarget && !busy) {
+      if (e.target === e.currentTarget && !busy && verifyPhase !== "pending") {
         onClose();
       }
     },
-    [busy, onClose]
+    [busy, verifyPhase, onClose]
   );
 
   useEffect(() => {
     if (!plan) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && !busy) {
+      if (e.key === "Escape" && !busy && verifyPhase !== "pending") {
         onClose();
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [plan, busy, onClose]);
+  }, [plan, busy, verifyPhase, onClose]);
 
   const pay = async () => {
     setError(null);
@@ -75,7 +89,7 @@ export function CheckoutModal({ plan, publicKey, onClose }: CheckoutModalProps) 
       );
       return;
     }
-    const trimmed = email.trim();
+    const trimmed = (defaultEmail || email).trim();
     if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
       setError("Enter a valid email address (required by the payment provider).");
       emailRef.current?.focus();
@@ -94,6 +108,28 @@ export function CheckoutModal({ plan, publicKey, onClose }: CheckoutModalProps) 
         onSuccess: (reference) => {
           setBusy(false);
           setSuccessRef(reference);
+          if (!isSupabaseConfigured) {
+            setVerifyPhase("err");
+            setVerifyDetail(
+              "Supabase is not configured — VIP cannot unlock automatically. Add keys and deploy the verify-paystack edge function (see SUPABASE_SETUP.md)."
+            );
+            return;
+          }
+          setVerifyPhase("pending");
+          void (async () => {
+            const result = await verifyPaystackAndUnlockVip(reference);
+            if (result.ok) {
+              setVerifyPhase("ok");
+              setVerifyDetail(null);
+              await onVipUnlocked?.();
+            } else {
+              setVerifyPhase("err");
+              setVerifyDetail(
+                result.error ??
+                  "Could not unlock VIP. Save your reference and contact support, or ask an admin to enable VIP on your profile."
+              );
+            }
+          })();
         },
         onClose: () => {
           setBusy(false);
@@ -129,12 +165,24 @@ export function CheckoutModal({ plan, publicKey, onClose }: CheckoutModalProps) 
             <p className="checkout-modal__text">
               Reference: <code className="checkout-modal__ref">{successRef}</code>
             </p>
-            <p className="checkout-modal__hint">
-              Confirm the charge on your phone if you used Mobile Money. For production, verify this
-              reference on your server with Paystack before unlocking content.
-            </p>
-            <button type="button" className="btn btn--primary checkout-modal__btn" onClick={onClose}>
-              Done
+            {verifyPhase === "pending" ? (
+              <p className="checkout-modal__hint">Unlocking VIP access…</p>
+            ) : null}
+            {verifyPhase === "ok" ? (
+              <p className="checkout-modal__verify-ok">VIP access is active. Refresh the odds board if needed.</p>
+            ) : null}
+            {verifyPhase === "err" && verifyDetail ? (
+              <p className="checkout-modal__error" role="alert">
+                {verifyDetail}
+              </p>
+            ) : null}
+            <button
+              type="button"
+              className="btn btn--primary checkout-modal__btn"
+              onClick={onClose}
+              disabled={verifyPhase === "pending"}
+            >
+              {verifyPhase === "pending" ? "Please wait…" : "Done"}
             </button>
           </>
         ) : (
@@ -166,8 +214,11 @@ export function CheckoutModal({ plan, publicKey, onClose }: CheckoutModalProps) 
               placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              disabled={busy}
+              disabled={busy || Boolean(defaultEmail)}
             />
+            {defaultEmail ? (
+              <p className="checkout-modal__hint">Using your account email so VIP unlock matches your login.</p>
+            ) : null}
             {error ? (
               <p className="checkout-modal__error" role="alert">
                 {error}

@@ -137,6 +137,14 @@
   line-height: 1.55;
 }
 
+.checkout-modal__verify-ok {
+  margin: 0 0 18px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--green);
+  line-height: 1.5;
+}
+
 .checkout-modal__btn {
   width: 100%;
 }
